@@ -152,31 +152,36 @@ client.on('message', message => {
   		}
       
       var code = args.join(" ");
+      
+      async function evaluate(code) {
+  	  	try {
+ 		      const evaled = eval(code);
+    		  const clean = await client.clean(evaled);
 
-  		try {
- 		    const evaled = eval(code);
-    		const clean = clean(client, evaled);
-
-    		embed
-      		.setTitle("Output")
-  		    .setDescription("```js\n" + clean.substr(0,2000) + "```")
-      		.addField("Code", "```js\n" + code.substr(0, 1000) + "```");
-    		message.channel.send(embed);
-  		} catch (err) {
-    		embed
-      		.setTitle("Error")
-      		.setDescription("```xl\n" + (clean(client, err)).substr(0, 2000) + "```")
-    		message.channel.send(embed);
-  		}
+    		  embed
+      		  .setTitle("Output")
+  		      .setDescription("```js\n" + clean.substr(0, 2000) + "```")
+      		  .addField("Code", "```js\n" + code.substr(0, 1000) + "```");
+    		  message.channel.send(embed);
+  		  } catch (err) {
+    		  embed
+      		  .setTitle("Error")
+      		  .setDescription("```xl\n" + (await client.clean(err)).substr(0, 2000) + "```")
+    		  message.channel.send(embed);
+  		  }
+      }
+      
+      evaluate(code)
   	}
   } catch (error3) {
     console.log("[Message] " + error3);
   }
 });
 
-async function clean(client, text) {
+client.clean = async (text) => {
   if (text && text.constructor.name == "Promise")
     text = await text;
+  
   if (typeof evaled !== "string")
     text = require("util").inspect(text, {depth: 1});
 
@@ -187,6 +192,5 @@ async function clean(client, text) {
 
   return text;
 };
-
 
 client.login(process.env.TOKEN);
