@@ -84,8 +84,10 @@ client.on('message', message => {
         var guild = message.guild;
         var author = message.author;
         
-        if (message == prefix + "ping") {
-          message.channel.send("Latency is " + (m.createdTimestamp - message.createdTimestamp) + "ms. API latency is " + Math.round(client.ping) + "ms.");
+        if (content == prefix + "ping") {
+          message.channel.send("Pong!").then(m => {
+            m.edit("Latency is " + (m.createdTimestamp - message.createdTimestamp) + "ms. API latency is " + Math.round(client.ping) + "ms.");
+          });
         }
       
         if (author.id == '365975655608745985') {
@@ -148,9 +150,9 @@ client.on('message', message => {
                                                     var f11 = f10.replace(/shiny/g, "");
                                                     var f12 = f11.toLowerCase();
                                                     if (typeof (f12) != "undefined") var f13 = f12.split(" ");
-                                                    var poke = f13.join("");
+                                                    var poke = f13.join(" ");
                                                     if (pokemon == "all") {
-                                                        channel.send(command + " " + poke);
+                                                        channel.send("Possible pokemon:" + poke);
                                                         console.log("[" + hour + ":" + min + "/" + guild + "/#" + channel.name + "]" + "Caught: " + poke);
                                                     }
                                                     if (pokemon == "legend") {
