@@ -1,5 +1,5 @@
 {
-  "name": "pokecord-catcher",
+  "name": "pokeassistant",
   "version": "1.0.0",
   "description": "Another amazing Discord bot!",
   "main": "index.js",
@@ -16,7 +16,7 @@
     "node": "8.x"
   },
   "repository": {
-    "url": "https://glitch.com/edit/#!/pokecord-catcher"
+    "url": "https://glitch.com/edit/#!/pokeassistant"
   },
   "license": "MIT",
   "keywords": [
