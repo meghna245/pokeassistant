@@ -32,7 +32,7 @@ client.on('ready', () => {
     }
 });
 
-client.on('error', () => {
+client.on('error', (client, error) => {
     try {
         console.log("[Error] " + error);
     } catch (error2) {
@@ -52,28 +52,8 @@ function cleanResult(str) {
     return xstr.join("");
 }
 
-
-const legends = ["mew", "entei", "groudon", "rayquaza", "manaphy", "arceus", "heatran", "marshadow", "regigigas", "raikou", "zygarde", "yveltal", "meloetta", "keldeo", "kyurem", "virizion", "terrakion", "uxie", "terrakion", "magearna", "zeraora", "ho-oh"];
-
-const results = ["Best guess for this image: miu pokemon", "Best guess for this image: legendary dog pokemon entei", "Best guess for this image: pokemon ruby version - game boy advance", "Best guess for this image: pokemon emerald prima official game guide", "Best guess for this image: rare water type pokemon", "Best guess for this image: top 5 strongest pokemon", "Best guess for this image: pokemon trading card game", "Best guess for this image: pokemon tcg: shining legends marshadow pin collection", "Best guess for this image: legendary regi pokemon", "Best guess for this image: pokemon black and white legendaries", "Best guess for this image: zygarde 50", "Best guess for this image: pokémon y", "Best guess for this image: popular pokemon", "Best guess for this image: pokemon water and fighting type", "Best guess for this image: black and white legendary pokemon", "Best guess for this image: grass type legendary pokemon", "Best guess for this image: legendary pokemon swords of justice", "Best guess for this image: pokemon 480", "Best guess for this image: sword of justice pokemon terrakion", "Best guess for this image: magearna pokemon sun and moon cute", "Best guess for this image: sun and moon mythical pokemon", "Best guess for this image: pokémon shining legends super-premium collection featuring ho-oh"];
-
-const legendz = ["articuno", "zapdos", "moltres", "mewtwo", "suicune", "lugia", "celebi", "regirock", "regice", "registeel", "kyogre", "groudon", "mesprit", "azelf", "dialga", "palkia", "giratina", "cresselia", "phione", "darkrai", "shaymin", "cobalion", "tornadus", "thundurus", "landorus", "diancie", "hoopa", "volcanion", "solgaleo", "lunala", "necrozma", "genesect", "jirachi", "deoxys", "latios", "latias", "Giratina", "tapu lele", "meltan", "melmetal"];
-
 var secs = 86400000;
 var spam = false;
-
-function doSpam(id) {
-    if (spam) {
-        var interval = setInterval(function () {
-            --secs;
-            if (secs && spam) {
-                client.channels.get(id).send(Math.floor(Math.random() * 864971562673452));
-            } else {
-                clearInterval();
-            }
-        }, 1200);
-    }
-}
 
 client.on('message', message => {
     try {
@@ -88,22 +68,10 @@ client.on('message', message => {
             m.edit("Latency is " + (m.createdTimestamp - message.createdTimestamp) + "ms. API latency is " + Math.round(client.ping) + "ms.");
           });
         }
-      
-        //if (author.id !== client.user.id) {
-
-            //if (args[0] == prefix + 'spam' && author.id == client.user.id) {
-            //    try {
-            //        spam ? spam = false : spam = true;
-            //        doSpam(channel.id);
-            //    } catch (err) {
-            //        channel.send("[Spammer] " + err);
-            //    }
-            //    message.delete();
-            //}
 
         if (author.id == '365975655608745985') {
           message.embeds.forEach((embed) => {
-            if (embed.description.startsWith("Guess the pokémon and type") {
+            if (embed.description.startsWith("Guess the pokémon and type")) {
               if (embed.image) {
                 var image1 = embed.image.url;
                 var clean_slash = image1.replace(/(\/)/gm, "%2F");
@@ -153,16 +121,6 @@ client.on('message', message => {
                                                     if (pokemon == "all") {
                                                         channel.send("Possible pokemon:" + poke.replace(/possible related search:/g, ""));
                                                         console.log("[" + hour + ":" + min + "/" + guild + "/#" + channel.name + "]" + "Caught: " + poke);
-                                                    }
-                                                    if (pokemon == "legend") {
-                                                        if (!results.includes(items1[0]) && legendz.includes(poke)) {
-                                                            channel.send(command + " " + poke);
-                                                            console.log("[" + hour + ":" + min + "/" + guild + "/#" + channel.name + "]" + "Caught: " + poke);
-                                                        }
-                                                        if (!legendz.includes(poke) && results.includes(items1[0])) {
-                                                            channel.send(command + " " + legends[results.indexOf(items1[0])]);
-                                                            console.log("[" + hour + ":" + min + "/" + guild + "/#" + channel.name + "]" + "Caught: " + legends[results.indexOf(items1[0])]);
-                                                        }
                                                     }
                                                     console.log(Math.floor(new Date().getMilliseconds() - initTime) + "ms.");
                                                 }
