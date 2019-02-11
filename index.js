@@ -28,7 +28,7 @@ setInterval(() => {
 client.on('ready', () => {
     try {
         console.log("Process is running. (No runtime errors.)\nNode.js version: " + process.version + "/Discord.js version: " + Discord.version);
-        client.user.setActivity(`CH's amburr Community | Pokemons`, {type: "WATCHING"});
+        client.user.setActivity(`Pokemons | CHamburr#2591`, {type: "WATCHING"});
     } catch (error1) {
         console.log("[Runtime] " + error1);
     }
@@ -91,7 +91,7 @@ client.on('message', message => {
           });
         }
       
-        if (author.id == '365975655608745985') {
+        //if (author.id !== client.user.id) {
 
             //if (args[0] == prefix + 'spam' && author.id == client.user.id) {
             //    try {
@@ -103,7 +103,7 @@ client.on('message', message => {
             //    message.delete();
             //}
 
-            if (channels.includes(channel.id)) {
+            if (author.id == '365975655608745985') {
                 message.embeds.forEach((embed) => {
                     if (embed.description == "Guess the pokémon and type " + command + " <pokémon> to catch it!") {
                         if (embed.image) {
@@ -181,7 +181,7 @@ client.on('message', message => {
                     }
                 });
             }
-        }
+        //}
     } catch (error3) {
         console.log("[Message] " + error3);
     }
