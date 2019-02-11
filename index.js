@@ -6,26 +6,25 @@ const unirest = require('unirest');
 const html2json = require('html-to-json');
 
 const prefix = '/';
-/* Your discord token */
-const token = 'replace this with token';
-/*
-Channels the bot should search in...
-(Channel id required)
-*/
-const channels = ["1", "2", "3"];
-/*
-The pokemon it should look for
-all = everything that spawns. (mess up depending on google result)
-legend = catch only legends. (May miss some depending on google result)
-*/
-const pokemon = 'legend';
-/* Catch command */
-const command = 'p!catch';
-/*
-~ End of values you can edit ~
-*/
 
-/* Notify that the bot is running. */
+const channels = ["460040860533391380"];
+
+const pokemon = 'all';
+
+const command = 'p!catch';
+
+const express = require('express');
+const app = express();
+
+app.get("/", (request, response) => {
+  response.sendStatus(200);
+});
+app.listen(process.env.PORT);
+setInterval(() => {
+  http.get(`http://${process.env.PROJECT_DOMAIN}.glitch.me/`);
+}, 280000);
+
+
 client.on('ready', () => {
     try {
         console.log("Process is running. (No runtime errors.)\nNode.js version: " + process.version + "/Discord.js version: " + Discord.version);
@@ -34,7 +33,6 @@ client.on('ready', () => {
     }
 });
 
-/* Error handling. */
 client.on('error', () => {
     try {
         console.log("[Error] " + error);
@@ -43,10 +41,7 @@ client.on('error', () => {
     }
 });
 
-/*
-TODO:
-add a unwanted list & debug this regex.
-*/
+
 function cleanResult(str) {
     var unwanted = [];
     var xstr = str.split(" ");
@@ -58,16 +53,13 @@ function cleanResult(str) {
     return xstr.join("");
 }
 
-//the ones google can't return
+
 const legends = ["mew", "entei", "groudon", "rayquaza", "manaphy", "arceus", "heatran", "marshadow", "regigigas", "raikou", "zygarde", "yveltal", "meloetta", "keldeo", "kyurem", "virizion", "terrakion", "uxie", "terrakion", "magearna", "zeraora", "ho-oh"];
-//results from legends that google can't return
+
 const results = ["Best guess for this image: miu pokemon", "Best guess for this image: legendary dog pokemon entei", "Best guess for this image: pokemon ruby version - game boy advance", "Best guess for this image: pokemon emerald prima official game guide", "Best guess for this image: rare water type pokemon", "Best guess for this image: top 5 strongest pokemon", "Best guess for this image: pokemon trading card game", "Best guess for this image: pokemon tcg: shining legends marshadow pin collection", "Best guess for this image: legendary regi pokemon", "Best guess for this image: pokemon black and white legendaries", "Best guess for this image: zygarde 50", "Best guess for this image: pokémon y", "Best guess for this image: popular pokemon", "Best guess for this image: pokemon water and fighting type", "Best guess for this image: black and white legendary pokemon", "Best guess for this image: grass type legendary pokemon", "Best guess for this image: legendary pokemon swords of justice", "Best guess for this image: pokemon 480", "Best guess for this image: sword of justice pokemon terrakion", "Best guess for this image: magearna pokemon sun and moon cute", "Best guess for this image: sun and moon mythical pokemon", "Best guess for this image: pokémon shining legends super-premium collection featuring ho-oh"];
-//results that google has returned correctly
+
 const legendz = ["articuno", "zapdos", "moltres", "mewtwo", "suicune", "lugia", "celebi", "regirock", "regice", "registeel", "kyogre", "groudon", "mesprit", "azelf", "dialga", "palkia", "giratina", "cresselia", "phione", "darkrai", "shaymin", "cobalion", "tornadus", "thundurus", "landorus", "diancie", "hoopa", "volcanion", "solgaleo", "lunala", "necrozma", "genesect", "jirachi", "deoxys", "latios", "latias", "Giratina", "tapu lele", "meltan", "melmetal"];
 
-/*
-spammer
-*/
 var secs = 86400000;
 var spam = false;
 
@@ -91,18 +83,22 @@ client.on('message', message => {
         var channel = message.channel;
         var guild = message.guild;
         var author = message.author;
+        
+        if (message == prefix + "ping") {
+          message.channel.send("Latency is " + (m.createdTimestamp - message.createdTimestamp) + "ms. API latency is " + Math.round(client.ping) + "ms.");
+        }
+      
+        if (author.id == '365975655608745985') {
 
-        if (author.id == client.user.id) {
-
-            if (args[0] == prefix + 'spam' && author.id == client.user.id) {
-                try {
-                    spam ? spam = false : spam = true;
-                    doSpam(channel.id);
-                } catch (err) {
-                    channel.send("[Spammer] " + err);
-                }
-                message.delete(); //potentially logged by a other bot
-            }
+            //if (args[0] == prefix + 'spam' && author.id == client.user.id) {
+            //    try {
+            //        spam ? spam = false : spam = true;
+            //        doSpam(channel.id);
+            //    } catch (err) {
+            //        channel.send("[Spammer] " + err);
+            //    }
+            //    message.delete();
+            //}
 
             if (channels.includes(channel.id)) {
                 message.embeds.forEach((embed) => {
@@ -131,7 +127,6 @@ client.on('message', message => {
                                     request2.timeout(1900);
                                     request2.headers({ "Accept": "application/json", "Content-type": "text/html", "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:53.0) Gecko/20100101 Firefox/53.0", "Content-Language": "en", "Accept-Language": "en-gb" });
                                     request2.end(function (res2) {
-                                        /* common pokie class gsmt otherwise r5a77d */
                                         if (res2.body) {
                                             html2json.parse(res2.body, ['.r5a77d', function ($item) {
                                                 return $item.text();
@@ -140,10 +135,6 @@ client.on('message', message => {
                                                 if (typeof (items1[0]) != "undefined") {
                                                     console.log("[" + hour + ":" + min + "/" + guild + "/#" + channel.name + "]" + items1[0]);
                                                     var result = items1[0].split(" ");
-                                                    /*
-                                                    TODO:
-                                                    Use cleanResult(str)
-                                                    */
                                                     var f1 = items1[0].replace(/Best guess for this image:/g, "");
                                                     var f2 = f1.replace(/Results/g, "");
                                                     var f3 = f2.replace(/pokemon/g, "");
@@ -180,7 +171,6 @@ client.on('message', message => {
                                         }
                                     });
                                 } else {
-                                    //end if error from google or script.
                                     process.end;
                                 }
                             });
@@ -194,5 +184,5 @@ client.on('message', message => {
     }
 });
 
-/* Log-in to account as bot using token */
-client.login(token);
+
+client.login(process.env.TOKEN);
