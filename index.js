@@ -5,9 +5,7 @@ const client = new Discord.Client();
 const unirest = require('unirest');
 const html2json = require('html-to-json');
 
-const prefix = '/';
-
-const channels = ["460040860533391380"];
+const prefix = '<@544450644015185940>';
 
 const pokemon = 'all';
 
@@ -103,17 +101,17 @@ client.on('message', message => {
             //    message.delete();
             //}
 
-            if (author.id == '365975655608745985') {
-                message.embeds.forEach((embed) => {
-                    if (embed.description == "Guess the pokémon and type " + command + " <pokémon> to catch it!") {
-                        if (embed.image) {
-                            var image1 = embed.image.url;
-                            var clean_slash = image1.replace(/(\/)/gm, "%2F");
-                            var clean = clean_slash.replace(/:+/gm, "%3A");
-                            var cd = new Date;
-                            var min = cd.getMinutes();
-                            var hour = cd.getHours();
-                            var initTime = cd.getMilliseconds();
+        if (author.id == '365975655608745985') {
+          message.embeds.forEach((embed) => {
+            if (embed.description.startsWith("Guess the pokémon and type") {
+              if (embed.image) {
+                var image1 = embed.image.url;
+                var clean_slash = image1.replace(/(\/)/gm, "%2F");
+                var clean = clean_slash.replace(/:+/gm, "%3A");
+                var cd = new Date;
+                var min = cd.getMinutes();
+                var hour = cd.getHours();
+                var initTime = cd.getMilliseconds();
                             console.log("https://www.google.com/searchbyimage?image_url=" + clean);
                             var request = unirest.get("https://www.google.com/searchbyimage?image_url=" + clean);
                             request.followRedirect(true);
