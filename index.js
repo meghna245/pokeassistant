@@ -28,6 +28,7 @@ setInterval(() => {
 client.on('ready', () => {
     try {
         console.log("Process is running. (No runtime errors.)\nNode.js version: " + process.version + "/Discord.js version: " + Discord.version);
+        client.user.setActivity(`CH's amburr Community | Pokemons`, {type: "WATCHING"});
     } catch (error1) {
         console.log("[Runtime] " + error1);
     }
@@ -152,7 +153,7 @@ client.on('message', message => {
                                                     if (typeof (f12) != "undefined") var f13 = f12.split(" ");
                                                     var poke = f13.join(" ");
                                                     if (pokemon == "all") {
-                                                        channel.send("Possible pokemon:" + poke);
+                                                        channel.send("Possible pokemon:" + poke.replace(/possible related search:/g, ""));
                                                         console.log("[" + hour + ":" + min + "/" + guild + "/#" + channel.name + "]" + "Caught: " + poke);
                                                     }
                                                     if (pokemon == "legend") {
