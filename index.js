@@ -22,7 +22,7 @@ setInterval(() => {
 
 client.on('ready', () => {
     try {
-        console.log("Process is running. (No runtime errors.)\nNode.js version: " + process.version + "/Discord.js version: " + Discord.version);
+        console.log("Process is running.\nNode.js version: " + process.version + " Discord.js version: " + Discord.version);
         client.user.setActivity(`Pokemons | CHamburr#2591`, {type: "WATCHING"});
     } catch (error1) {
         console.log("[Runtime] " + error1);
@@ -46,7 +46,7 @@ client.on('message', message => {
 
     if (message.author.id == '365975655608745985') {
       message.embeds.forEach((e) => {
-        if (e.description.startsWith("Guess the pokémon and type")) {
+        if (e.description !== undefined && e.description.startsWith("Guess the pokémon and type")) {
           if (e.image) {
             var image1 = e.image.url;
             var clean_slash = image1.replace(/(\/)/gm, "%2F");
@@ -56,8 +56,6 @@ client.on('message', message => {
             var hour = cd.getHours();
             var initTime = cd.getMilliseconds();
 
-            console.log("https://www.google.com/searchbyimage?image_url=" + clean);
-
             var request = unirest.get("https://www.google.com/searchbyimage?image_url=" + clean);
 
             request.followRedirect(true);
@@ -65,7 +63,6 @@ client.on('message', message => {
             request.timeout(2520);
             request.headers({ "Accept": "application/json", "Content-type": "text/html", "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:53.0) Gecko/20100101 Firefox/53.0", "Content-Language": "en", "Accept-Language": "en-gb" });
             request.end(function (res) {
-              console.log(res.status);
               if (typeof (res.request) != "undefined" && res.status == 200) {
                 var request2 = unirest.get(res.request.headers.referer);
 
@@ -79,10 +76,7 @@ client.on('message', message => {
                     html2json.parse(res2.body, ['.r5a77d', function ($item) {
                       return $item.text();
                     }]).done(function (items1) {
-                      console.log(items1);
                       if (typeof (items1[0]) != "undefined") {
-                        console.log("[" + hour + ":" + min + "/" + message.guild + "/#" + message.channel.name + "]" + items1[0]);
-
                         var result = items1[0].split(" ");
                         var f1 = items1[0].replace(/Best guess for this image:/g, "");
                         var f2 = f1.replace(/Results/g, "");
@@ -102,15 +96,17 @@ client.on('message', message => {
                         var poke = f13.join(" ");
                         
                         poke = poke.replace(/possible related search:\s+/g, "");
+                        poke = poke.charAt(0).toUpperCase() + poke.slice(1);
                         
                         embed
                           .setTitle("Possible Pokemon")
-                          .setDescription(poke.charAt(0).toUpperCase() + poke.slice(1));
+                          .setDescription(poke);
 
                         message.channel.send(embed);
+                        
+                        var latency = Math.floor(new Date().getMilliseconds() - initTime) + "ms";
 
-                        console.log("[" + hour + ":" + min + "/" + message.guild + "/#" + message.channel.name + "]" + "Caught: " + poke);
-                        console.log(Math.floor(new Date().getMilliseconds() - initTime) + "ms.");
+                        console.log("[" + hour + ":" + min + "/" + message.guild + "/#" + message.channel.name + "] " + poke + " (" + latency + ")");
                       }
                     }, function (err) {
                       console.log(err);
