@@ -101,6 +101,9 @@ client.on('message', message => {
 
                         var poke = f13.join(" ");
                         
+                        var pok = poke.replace(/possible related search:\s+/g, "");
+                        console.log(pok.charAt(0).toUpperCase() + pok.slice(1));
+                        
                         embed
                           .setTitle("Possible Pokemon")
                           .setDescription(poke.replace(/possible related search:/g, ""));
