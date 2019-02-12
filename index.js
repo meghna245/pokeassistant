@@ -45,10 +45,10 @@ client.on('message', message => {
   		.setColor(0xFF4500);
 
     if (message.author.id == '365975655608745985') {
-      message.embeds.forEach((embed) => {
-        if (embed.description.startsWith("Guess the pokémon and type")) {
-          if (embed.image) {
-            var image1 = embed.image.url;
+      message.embeds.forEach((e) => {
+        if (e.description.startsWith("Guess the pokémon and type")) {
+          if (e.image) {
+            var image1 = e.image.url;
             var clean_slash = image1.replace(/(\/)/gm, "%2F");
             var clean = clean_slash.replace(/:+/gm, "%3A");
             var cd = new Date;
@@ -101,11 +101,11 @@ client.on('message', message => {
 
                         var poke = f13.join(" ");
                         
-                        //embed
-                        //  .setTitle("Possible Pokemon")
-                        //  .setDescription(poke.replace(/possible related search:/g, ""));
+                        embed
+                          .setTitle("Possible Pokemon")
+                          .setDescription(poke.replace(/possible related search:/g, ""));
 
-                        message.channel.send("Possible pokemon:" + poke.replace(/possible related search:/g, ""));
+                        message.channel.send(embed);
 
                         console.log("[" + hour + ":" + min + "/" + message.guild + "/#" + message.channel.name + "]" + "Caught: " + poke);
                         console.log(Math.floor(new Date().getMilliseconds() - initTime) + "ms.");
