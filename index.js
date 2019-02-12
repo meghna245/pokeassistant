@@ -101,12 +101,11 @@ client.on('message', message => {
 
                         var poke = f13.join(" ");
                         
-                        var pok = poke.replace(/possible related search:\s+/g, "");
-                        console.log(pok.charAt(0).toUpperCase() + pok.slice(1));
+                        poke = poke.replace(/possible related search:\s+/g, "");
                         
                         embed
                           .setTitle("Possible Pokemon")
-                          .setDescription(poke.replace(/possible related search:/g, ""));
+                          .setDescription(poke.charAt(0).toUpperCase() + poke.slice(1));
 
                         message.channel.send(embed);
 
