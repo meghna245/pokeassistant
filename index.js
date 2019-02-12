@@ -101,11 +101,11 @@ client.on('message', message => {
 
                         var poke = f13.join(" ");
                         
-                        embed
-                          .setTitle("Possible Pokemon")
-                          .setDescription(poke.replace(/possible related search:/g, ""));
+                        //embed
+                        //  .setTitle("Possible Pokemon")
+                        //  .setDescription(poke.replace(/possible related search:/g, ""));
 
-                        message.channel.send(embed);
+                        message.channel.send("Possible pokemon:" + poke.replace(/possible related search:/g, ""));
 
                         console.log("[" + hour + ":" + min + "/" + message.guild + "/#" + message.channel.name + "]" + "Caught: " + poke);
                         console.log(Math.floor(new Date().getMilliseconds() - initTime) + "ms.");
