@@ -100,8 +100,12 @@ client.on('message', message => {
                         if (typeof (f12) != "undefined") var f13 = f12.split(" ");
 
                         var poke = f13.join(" ");
+                        
+                        embed
+                          .setTitle("Possible Pokemon")
+                          .setDescription(poke.replace(/possible related search:/g, ""));
 
-                        message.channel.send("Possible pokemon:" + poke.replace(/possible related search:/g, ""));
+                        message.channel.send(embed);
 
                         console.log("[" + hour + ":" + min + "/" + message.guild + "/#" + message.channel.name + "]" + "Caught: " + poke);
                         console.log(Math.floor(new Date().getMilliseconds() - initTime) + "ms.");
