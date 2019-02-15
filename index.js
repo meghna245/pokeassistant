@@ -26,7 +26,8 @@ setInterval(() => {
 client.commands = new Discord.Collection();
 client.cmdhelp = new Discord.Collection();
 
-function loadCommands() {
+
+client.loadCommands = () => {
   fs.readdir('./commands/', (err, files) => {
     if (err) console.error(err);
 
@@ -44,7 +45,7 @@ function loadCommands() {
   });
 };
 
-loadCommands();
+client.loadCommands();
 
 client.on('ready', () => {
   console.log(`Bot has started, with ${client.users.size} users, in ${client.channels.size} channels of ${client.guilds.size} guilds.`);
@@ -60,9 +61,9 @@ client.on('message', message => {
   	let embed = new Discord.RichEmbed()
   		.setColor(0xFF4500);
     
-    if 
+    if (message.guild && !message.channel.memberPermissions(client.user).has('SEND_MESSAGES')) return;
     
-    if (message.guild && !message.channel.memberPermissions(client.user).has("EMBED_LINKS")) {
+    if (message.guild && !message.channel.memberPermissions(client.user).has('EMBED_LINKS')) {
       return message.channel.send("I need the *Embed Links* permission. Please contact an administrator on this server.");
     }
 
@@ -143,6 +144,24 @@ client.clean = async (text) => {
     .replace(process.env.TOKEN, "--NO--TOKEN--");
 
   return text;
+};
+
+function loadCommands() {
+  fs.readdir('./commands/', (err, files) => {
+    if (err) console.error(err);
+
+    let jsFiles = files.filter(f => f.split('.').pop() === 'js');
+
+    console.log(`Loading a total of ${jsFiles.length} commands.`);
+
+    jsFiles.forEach((f, i) => {
+      delete require.cache[require.resolve(`./commands/${ f }`)];
+      let props = require(`./commands/${ f }`);
+      console.log("Loading command: " + f);
+      client.commands.set(f, props);
+      client.cmdhelp.set(props.help.name, props.help);
+    });
+  });
 };
 
 client.login(process.env.TOKEN);
