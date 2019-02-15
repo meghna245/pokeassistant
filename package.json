@@ -10,7 +10,8 @@
     "express": "^4.16.4",
     "discord.js": "^11.4.2",
     "unirest": "^0.5.1",
-    "html-to-json": "^0.6.0"
+    "html-to-json": "^0.6.0",
+    "imghash": "^0.0.3"
   },
   "engines": {
     "node": "8.x"
