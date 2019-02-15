@@ -26,25 +26,22 @@ setInterval(() => {
 client.commands = new Discord.Collection();
 client.cmdhelp = new Discord.Collection();
 
-function loadCmds() {
+function loadCommands() {
   fs.readdir('./commands/', (err, files) => {
     if (err) console.error(err);
 
     let jsFiles = files.filter(f => f.split('.').pop() === 'js');
 
-        console.log(`Loading a total of ${jsFiles.length} commands.`);
+    console.log(`Loading a total of ${jsFiles.length} commands.`);
 
-        jsFiles.forEach((f, i) => {
-
-            delete require.cache[require.resolve(`./commands/${ f }`)];
-            let props = require(`./commands/${ f }`);
-            console.log(`${i + 1}: ${f} loaded!`);
-            client.commands.set(f, props);
-            client.cmdhelp.set(props.help.name, props.help);
-
-        });
+    jsFiles.forEach((f, i) => {
+      delete require.cache[require.resolve(`./commands/${ f }`)];
+      let props = require(`./commands/${ f }`);
+      console.log("Loading command: " + f);
+      client.commands.set(f, props);
+      client.cmdhelp.set(props.help.name, props.help);
     });
-
+  });
 };
 
 loadCommands();
