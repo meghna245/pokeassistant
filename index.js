@@ -90,7 +90,7 @@ client.on('message', message => {
                 
                   embed
                     .setTitle("Possible Pokemon: " + result)
-                    .setFooter("Want this bot in your server? Do @" + client.user.tag + " invite.");
+                    .setFooter("Want this bot in your server? Do @" + client.user.tag + " info.");
                   message.channel.send(embed);
                 
                   console.log("[" + message.guild.name + "/#" + message.channel.name + "] " + result);
