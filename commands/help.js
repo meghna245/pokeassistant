@@ -16,7 +16,8 @@ module.exports.run = async (client, message, args) => {
   //client.cmdhelp.filter(cmd => cmd.category === 'Other').forEach((cmd) => {otherArr.push(cmd.name)});
   
   embed
-    .addField("General", generalArr.map(g => g).join('\n'), true);
+    .addField("General", generalArr.map(g => g).join('\n'), true)
+    .addField("Debug", debugArr.map(g => g).join('\n', true));
   
   if (!args[0]) {
     message.channel.send(embed);
