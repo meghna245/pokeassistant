@@ -60,6 +60,10 @@ client.on('message', message => {
   try {
   	let embed = new Discord.RichEmbed()
   		.setColor(0xFF4500);
+    
+    if (message.guild && !message.channel.memberPermissions(client.user).has("EMBED_LINKS")) {
+      return message.channel.send("I need the *Embed Links* permission. Please contact an administrator on this server.");
+    }
 
     if (message.author.id == '365975655608745985') {
       message.embeds.forEach((e) => {
@@ -108,13 +112,15 @@ client.on('message', message => {
       return;
     }
     
-    args = messz
-    args = message.content.slice(thisPrefix.length).trim().split(/ +/g);
+    args = message.content.slice(prefix.length).trim().split(/ +/g);
     command = args.shift().toLowerCase();
-  	} 
-  
-  	if (!prefix) return;
 
+    let cmd = client.commands.get(command + ".js");
+    
+    if (cmd) {
+      cmd.run(client, message, args);
+    }
+    
   	if (command == "ping") {
   		embed
   			.setTitle("Ping?");
