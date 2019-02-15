@@ -1,12 +1,14 @@
 const fs = require('fs');
 const http = require('http');
+
+const db = require('./Pokemons.json')
+const imghash = require('imghash');
+const request = require('request').defaults({ encoding: null });
+
 const Discord = require('discord.js');
 const client = new Discord.Client();
-const unirest = require('unirest');
-const html2json = require('html-to-json');
 
 const prefixes = ['<@544450644015185940>', '<@!544450644015185940>'];
-const owner = "446290930723717120";
 
 const express = require('express');
 const app = express();
@@ -63,74 +65,23 @@ client.on('message', message => {
       message.embeds.forEach((e) => {
         if (e.description !== undefined && e.description.startsWith("Guess the pokémon and type")) {
           if (e.image) {
-            var image1 = e.image.url;
-            var clean_slash = image1.replace(/(\/)/gm, "%2F");
-            var clean = clean_slash.replace(/:+/gm, "%3A");
-            var cd = new Date;
-            var min = cd.getMinutes();
-            var hour = cd.getHours();
-            var initTime = cd.getMilliseconds();
-
-            var request = unirest.get("https://www.google.com/searchbyimage?image_url=" + clean);
-
-            request.followRedirect(true);
-            request.maxRedirects(1);
-            request.timeout(2520);
-            request.headers({ "Accept": "application/json", "Content-type": "text/html", "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:53.0) Gecko/20100101 Firefox/53.0", "Content-Language": "en", "Accept-Language": "en-gb" });
-            request.end(function (res) {
-              if (typeof (res.request) != "undefined" && res.status == 200) {
-                var request2 = unirest.get(res.request.headers.referer);
-
-                request2.followRedirect(true);
-                request2.followAllRedirects(true);
-                request2.maxRedirects(1);
-                request2.timeout(1900);
-                request2.headers({ "Accept": "application/json", "Content-type": "text/html", "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:53.0) Gecko/20100101 Firefox/53.0", "Content-Language": "en", "Accept-Language": "en-gb" });
-                request2.end(function (res2) {
-                  if (res2.body) {
-                    html2json.parse(res2.body, ['.r5a77d', function ($item) {
-                      return $item.text();
-                    }]).done(function (items1) {
-                      if (typeof (items1[0]) != "undefined") {
-                        var result = items1[0].split(" ");
-                        var f1 = items1[0].replace(/Best guess for this image:/g, "");
-                        var f2 = f1.replace(/Results/g, "");
-                        var f3 = f2.replace(/pokemon/g, "");
-                        var f4 = f3.replace(/go/g, "");
-                        var f5 = f4.replace(/png/g, "");
-                        var f6 = f5.replace(/evolution/g, "");
-                        var f7 = f6.replace(/for/g, "");
-                        var f8 = f7.replace(/nobackground/g, "");
-                        var f9 = f8.replace(/pokémon/g, "");
-                        var f10 = f9.replace(/blackandwhite/g, "");
-                        var f11 = f10.replace(/shiny/g, "");
-                        var f12 = f11.toLowerCase();
-
-                        if (typeof (f12) != "undefined") var f13 = f12.split(" ");
-
-                        var poke = f13.join(" ");
-                        
-                        poke = poke.replace(/possible related search:\s+/g, "");
-                        poke = poke.charAt(0).toUpperCase() + poke.slice(1);
-                        
-                        embed
-                          .setTitle("Possible Pokemon")
-                          .setDescription(poke);
-
-                        message.channel.send(embed);
-                        
-                        var latency = Math.floor(new Date().getMilliseconds() - initTime) + "ms";
-
-                        console.log("[" + hour + ":" + min + "/" + message.guild + "/#" + message.channel.name + "] " + poke + " (" + latency + ")");
-                      }
-                    }, function (err) {
-                      console.log(err);
-                    });
+            let url = e.image.url;
+            
+            request(url, async function(err, res, body) {
+              if (err !== null) return;
+            
+              imghash
+                .hash(body)
+                .then(hash => {
+                  let result = db[hash];
+                  
+                  if (result === undefined) {
+                    embed
+                      .setTitle("Pokemon Not Found")
+                      .setDescription("Please contact the owner, CHamburr#2591")
                   }
-                });
-              } else {
-                process.end;
-              }
+                  client.channels.get('545543547181334548').send('```"' + hash + '":"' + name + '",```');	
+                })
             });
           }
         }
@@ -164,7 +115,7 @@ client.on('message', message => {
       });
   	}
   	else if (command == "eval") {
-  		if (message.author.id != owner) {
+  		if (message.author.id != process.env.OWNER) {
   			return;
   		}
       
