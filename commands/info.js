@@ -8,7 +8,7 @@ module.exports.run = async (client, message, args) => {
     .addField("Developer", "<@446290930723717120>")
     .addField("How does it work?", "All the images from Pokecord are hashed into short strings, and stored in our database. When Pokecord spawns a Pokemon, PokeAssistant will hash it, then compare with the database and retrieve the name of the Pokemon.")
     .addField("Bot is blacklisted?", "Don't worry, creating bots are easy. Join our official server to invite a new bot, and always get the latest the announcements.")
-    .addField("You're miles, or a moderator from Pokecord?", "Come drop me a DM.")
+    .addField("You're miles, or a moderator from Pokecord?", "Impressed with my bot? 100% accuracy. Try it out and come drop me a DM.")
     .addField("Bot invite link", "https://discordapp.com/oauth2/authorize?client_id=" + client.user.id + "&scope=bot&permissions=8")
     .addField("Server invite link", "https://discord.gg/TYe3U4w");
   
