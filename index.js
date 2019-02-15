@@ -13,6 +13,8 @@ const prefixes = ['<@544450644015185940>', '<@!544450644015185940>'];
 const express = require('express');
 const app = express();
 
+if (Number(process.version.slice(1).split(".")[0]) < 8) throw new Error("Node 8.0.0 or higher is required. Update Node on your system.");
+
 app.get("/", (request, response) => {
   response.sendStatus(200);
 });
@@ -56,9 +58,7 @@ client.on('error', (client, error) => {
 
 client.on('message', message => {
   try {
-	  var args = message.content;
-  	var command = "";
-  	var embed = new Discord.RichEmbed()
+  	let embed = new Discord.RichEmbed()
   		.setColor(0xFF4500);
 
     if (message.author.id == '365975655608745985') {
@@ -78,9 +78,14 @@ client.on('message', message => {
                   if (result === undefined) {
                     embed
                       .setTitle("Pokemon Not Found")
-                      .setDescription("Please contact the owner, CHamburr#2591")
+                      .setDescription("Please contact the owner CHamburr#2591 to add this Pokemon to the database.");
+                    return message.channel.send(embed);
                   }
-                  client.channels.get('545543547181334548').send('```"' + hash + '":"' + name + '",```');	
+                
+                  embed
+                    .setTitle(result)
+                    .setFooter("Want this bot in your server? Do @" + client.user.tag + "invite.");
+                  message.channel.send(embed);
                 })
             });
           }
@@ -90,14 +95,22 @@ client.on('message', message => {
 
     if (message.author.bot) return;
 
-    var prefix = false;
-
-    for (const thisPrefix of prefixes) {
-      if (message.content.startsWith(thisPrefix)) {
-      	prefix = thisPrefix;
-      	args = message.content.slice(thisPrefix.length).trim().split(/ +/g);
-      	command = args.shift().toLowerCase();
-    	}
+    let prefix = false;
+	  let args = message.content;
+  	let command = "";
+    
+    if (message.content.startsWith("<@" + client.user.id + ">")) {
+      prefix = "<@" + client.user.id + ">";
+    }
+    else if (message.content.startsWith("<@!" + client.user.id + ">")) {
+      prefix = "<@!" + client.user.id + ">";
+    } else {
+      return;
+    }
+    
+    args = messz
+    args = message.content.slice(thisPrefix.length).trim().split(/ +/g);
+    command = args.shift().toLowerCase();
   	} 
   
   	if (!prefix) return;
