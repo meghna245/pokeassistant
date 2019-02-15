@@ -16,6 +16,8 @@ module.exports.run = async (client, message, args) => {
   
   embed
     .setTitle("Loading Commands...");
+  
+  message.channel.send(embed);
 };
 
 exports.help = {
