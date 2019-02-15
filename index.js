@@ -19,22 +19,41 @@ setInterval(() => {
   http.get(`http://${process.env.PROJECT_DOMAIN}.glitch.me/`);
 }, 280000);
 
+client.commands = new Discord.Collection();
+client.cmdhelp = new Discord.Collection();
+
+function loadCommands() {
+  fs.readdir('./commands/', (err, files) => {
+    if (err) console.error("Error loading commands: " + err);
+
+        let jsFiles = files.filter(f => f.split('.').pop() === 'js');
+        if (jsFiles.length <= 0) {
+            console.log('No commands to load.');
+            return;
+        };
+
+        console.log(`Loading ${jsFiles.length} commands!`);
+
+        jsFiles.forEach((f, i) => {
+
+            delete require.cache[require.resolve(`./commands/${ f }`)];
+            let props = require(`./commands/${ f }`);
+            console.log(`${i + 1}: ${f} loaded!`);
+            client.commands.set(f, props);
+            client.cmdhelp.set(props.help.name, props.help);
+
+        });
+    });
+
+};
 
 client.on('ready', () => {
-    try {
-        console.log("Process is running.\nNode.js version: " + process.version + " Discord.js version: " + Discord.version);
-        client.user.setActivity(`Pokemons | CHamburr#2591`, {type: "WATCHING"});
-    } catch (error1) {
-        console.log("[Runtime] " + error1);
-    }
+  console.log(`Bot has started, with ${client.users.size} users, in ${client.channels.size} channels of ${client.guilds.size} guilds.`);
+  client.user.setActivity(`Pokemons | CHamburr#2591`, {type: "WATCHING"});
 });
 
 client.on('error', (client, error) => {
-    try {
-        console.log("[Error] " + error);
-    } catch (error2) {
-        console.log("Something went wrong!\n" + error2);
-    }
+  console.log("Unhandled error: " + error);
 });
 
 client.on('message', message => {
