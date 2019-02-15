@@ -22,30 +22,26 @@ setInterval(() => {
 client.commands = new Discord.Collection();
 client.cmdhelp = new Discord.Collection();
 
-function loadCommands() {
-  fs.readdir('./commands/', (err, files) => {
-    if (err) console.error("Error loading commands: " + err);
+async function loadCommands() {
+  const cmdFiles = fs.readdir('./commands/');
+  console.log(`Loading a total of ${cmdFiles.length} commands.`);
 
-        let jsFiles = files.filter(f => f.split('.').pop() === 'js');
-        if (jsFiles.length <= 0) {
-            console.log('No commands to load.');
-            return;
-        };
-
-        console.log(`Loading ${jsFiles.length} commands!`);
-
-        jsFiles.forEach((f, i) => {
-
-            delete require.cache[require.resolve(`./commands/${ f }`)];
-            let props = require(`./commands/${ f }`);
-            console.log(`${i + 1}: ${f} loaded!`);
-            client.commands.set(f, props);
-            client.cmdhelp.set(props.help.name, props.help);
-
-        });
-    });
-
+  cmdFiles.forEach(f => {
+    if (!f.endsWith('.js')) return;
+      
+    delete require.cache[require.resolve(`./commands/${ f }`)];
+    let props = require(`./commands/${ f }`);
+    
+    try {
+      client.commands.set(f, props);
+      client.cmdhelp.set(props.help.name, props.help);
+    } catch (err) {
+      console.log("Error loading command " + f + ": " + err);
+    }
+  });
 };
+
+loadCommands();
 
 client.on('ready', () => {
   console.log(`Bot has started, with ${client.users.size} users, in ${client.channels.size} channels of ${client.guilds.size} guilds.`);
