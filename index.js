@@ -60,6 +60,8 @@ client.on('message', message => {
   	let embed = new Discord.RichEmbed()
   		.setColor(0xFF4500);
     
+    if 
+    
     if (message.guild && !message.channel.memberPermissions(client.user).has("EMBED_LINKS")) {
       return message.channel.send("I need the *Embed Links* permission. Please contact an administrator on this server.");
     }
@@ -122,33 +124,7 @@ client.on('message', message => {
       cmd.run(client, message, args);
     }
     
-  	if (command == "eval") {
-  		if (message.author.id != process.env.OWNER) {
-  			return;
-  		}
-      
-      var code = args.join(" ");
-      
-      async function evaluate(code) {
-  	  	try {
- 		      const evaled = eval(code);
-    		  const clean = await client.clean(evaled);
-
-    		  embed
-      		  .setTitle("Output")
-  		      .setDescription("```js\n" + clean.substr(0, 2000) + "```")
-      		  .addField("Code", "```js\n" + code.substr(0, 1000) + "```");
-    		  message.channel.send(embed);
-  		  } catch (err) {
-    		  embed
-      		  .setTitle("Error")
-      		  .setDescription("```xl\n" + (await client.clean(err)).substr(0, 2000) + "```")
-    		  message.channel.send(embed);
-  		  }
-      }
-      
-      evaluate(code)
-  	}
+  	
   } catch (error3) {
     console.log("Error at message: " + error3);
   }

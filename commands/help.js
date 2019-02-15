@@ -2,10 +2,10 @@ const Discord = require('discord.js');
 
 module.exports.run = async (client, message, args) => {   
   let embed = new Discord.RichEmbed()
-      .setTitle("Help")
+      .setTitle("PokeAssistant Help")
       .setDescription("Use `help <command>` for details.")
       .setColor(0xFF4500)
-      .addField("🔢 Legend", "`<arg>` Compulsory argument\n`[arg]` Optional argument");
+      .addField("Legend", "`<arg>` Compulsory argument\n`[arg]` Optional argument");
   
   let generalArr = [],
       debugArr = [];
@@ -22,16 +22,23 @@ module.exports.run = async (client, message, args) => {
     message.channel.send(embed);
   } else {
     let cmd = client.cmdhelp.filter(cmd => cmd.name === args[0]).first();
+    let cmdEmbed = new Discord.RichEmbed()
+      .setColor(0xFF4500);
+    
     if (!cmd) {
-      embed.setTitle('That command could not be found.');
-      message.channel.send(embed);
-    } else {
-      let cmdEmbed = new Discord.RichEmbed()
-        .setTitle(cmd.displName)
-        .setDescription(`${cmd.desc}\n\n**Usage:**\n\`\`\`${cmd.usage}\`\`\``)
-        .setColor('#73C3AB')
-      message.channel.send(cmdEmbed)
+      embed
+        .setTitle("Command Not Found")
+        .setDescription("Please see `help` for a list of commands.");
+      
+      return message.channel.send(cmdEmbed);
     }
+    
+    cmdEmbed
+      .setTitle(cmd.name.charAt(0).toUpperCase() + cmd.name.substr(1))
+      .setDescription(cmd.description)
+      .addField("Usage", "```" + cmd.usage + "```");
+    
+    message.channel.send(cmdEmbed);
   }
 };
 
