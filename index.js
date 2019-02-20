@@ -146,4 +146,22 @@ client.clean = async (text) => {
   return text;
 };
 
+client.log = async (content, title, type) => {
+  let embed = new Discord.RichEmbed()
+    .setTitle(title)
+    .setDescription(content)
+    .setColor(0xFF4500)
+    .setTimestamp();
+  
+  if (type === "event") {
+    client.channels.get(process.env.EVENTCHANNEL).send(embed);
+  }
+  else if (type === "error") {
+    client.channels.get(process.env.EERRORCHANNEL).send(embed);
+  }
+  else if (type === "joinleave") {
+    client.channels.get(process.env.JOINLEAVECHANNEL).send(embed);
+  }
+};
+
 client.login(process.env.TOKEN);
