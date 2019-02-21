@@ -53,17 +53,18 @@ client.on('ready', () => {
   client.user.setActivity(`Pokemons | CHamburr#2591`, {type: "WATCHING"});
 });
 
-client.on('error', (client, error) => {
-  console.log("Unhandled error: " + error);
+client.on('error', error => {
+  console.log(`ERROR ${error}`);
+  client.log(error, "Error", "error");
 });
 
-client.on("guildCreate", guild => {
+client.on('guildCreate', guild => {
   console.log(`GUILD JOIN ${guild.name} (${guild.id})`);
   client.log(`${guild.name} (${guild.id})`, "Guild Join", "joinleave");
 });
 
 
-client.on("guildDelete", guild => {
+client.on('guildDelete', guild => {
   console.log(`GUILD LEAVE ${guild.name} (${guild.id})`);
   client.log(`${guild.name} (${guild.id})`, "Guild Leave", "joinleave");
 });
@@ -137,9 +138,10 @@ client.on('message', message => {
       cmd.run(client, message, args);
     }
     
-  	
+  	console.log("[" + message.guild.name + "/#" + message.channel.name + "] " + client.command);
   } catch (error3) {
-    console.log("Error at message: " + error3);
+    console.log("ERROR at Message: " + error3);
+    client.log(error3, "Error at Message", "error");
   }
 });
 
