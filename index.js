@@ -171,7 +171,7 @@ client.log = async (content, title, type) => {
     client.channels.get(process.env.EVENTCHANNEL).send(embed);
   }
   else if (type === "error") {
-    client.channels.get(process.env.EERRORCHANNEL).send(embed);
+    client.channels.get(process.env.ERRORCHANNEL).send(embed);
   }
   else if (type === "joinleave") {
     client.channels.get(process.env.JOINLEAVECHANNEL).send(embed);
