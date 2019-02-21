@@ -56,6 +56,16 @@ client.on('error', (client, error) => {
   console.log("Unhandled error: " + error);
 });
 
+client.on("guildCreate", guild => {
+    console.log(g
+});
+
+
+client.on("guildDelete", guild => {
+    console.log("Left a guild: " + guild.name);
+    
+});
+
 client.on('message', message => {
   try {
   	let embed = new Discord.RichEmbed()
@@ -149,7 +159,7 @@ client.clean = async (text) => {
 client.log = async (content, title, type) => {
   let embed = new Discord.RichEmbed()
     .setTitle(title)
-    .setDescription(content)
+    .setDescription(content.toString().substr(0, 2048))
     .setColor(0xFF4500)
     .setTimestamp();
   
