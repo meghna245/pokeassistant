@@ -136,7 +136,7 @@ client.on('message', message => {
     
     if (cmd) {
       cmd.run(client, message, args);
-      console.log(`[${message.guild.name}/#${message.channel.name}] ${message.author.tag} (${message.author.id}): ${client.cmdhelp.get(command).name}`);
+      console.log(`[${message.guild.name}/#${message.channel.name}] ${message.author.tag} (${message.author.id}): ${cmd.help.name}`);
     }
   } catch (error3) {
     console.log("ERROR at Message: " + error3);
