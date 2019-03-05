@@ -4,7 +4,9 @@ module.exports.run = async (client, message, args) => {
   let embed = new Discord.RichEmbed()
     .setColor(0xFF4500);
   
-  if (message.author.id != process.env.OWNER) {
+  let owners = process.env.OWNER.split(',');
+  
+  if (!owners.includes(message.author.id))  {
     embed
       .setTitle("Permission Denied")
       .setDescription("You do not have permission to use this command. It is meant for other users.");

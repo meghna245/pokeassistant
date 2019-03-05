@@ -50,7 +50,7 @@ client.loadCommands();
 client.on('ready', () => {
   console.log(`READY Bot has started, with ${client.users.size} users, in ${client.channels.size} channels of ${client.guilds.size} guilds.`);
   client.log(`Bot has started, with ${client.users.size} users, in ${client.channels.size} channels of ${client.guilds.size} guilds.`, "Ready", "event");
-  client.user.setActivity(`Pokemons | CHamburr#2591`, {type: "WATCHING"});
+  client.user.setActivity(`discord.gg/TYe3U4w`);
 });
 
 client.on('error', error => {
