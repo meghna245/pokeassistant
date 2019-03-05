@@ -4,6 +4,8 @@ module.exports.run = async (client, message, args) => {
   let embed = new Discord.RichEmbed()
     .setColor(0xFF4500);
   
+  let owners = process.env.OWNER
+  
   if (message.author.id != process.env.OWNER) {
     embed
       .setTitle("Permission Denied")
