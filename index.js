@@ -77,7 +77,7 @@ client.on('message', message => {
     if (message.guild && !message.channel.memberPermissions(client.user).has('SEND_MESSAGES')) return;
     
     if (message.guild && !message.channel.memberPermissions(client.user).has('EMBED_LINKS')) {
-      return message.channel.send("I need the *Embed Links* permission. Please contact an administrator on this server.");
+      return message.channel.send("I need the `Embed Links` permission. Please contact an administrator on this server.");
     }
 
     if (message.author.id == '365975655608745985') {
