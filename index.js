@@ -8,8 +8,6 @@ const request = require('request').defaults({ encoding: null });
 const Discord = require('discord.js');
 const client = new Discord.Client();
 
-const prefixes = ['<@544450644015185940>', '<@!544450644015185940>'];
-
 const express = require('express');
 const app = express();
 
@@ -103,7 +101,7 @@ client.on('message', message => {
                 
                   embed
                     .setTitle("Possible Pokemon: " + result)
-                    .setFooter("Want this bot in your server? Do @" + client.user.tag + " info.");
+                    .setFooter("Want this bot in your server? Do @" + client.user.tag + " info.\nYou can also self-host the bot: https://github.com/CHamburr/PokeAssistant");
                   message.channel.send(embed);
                 
                   console.log("[" + message.guild.name + "/#" + message.channel.name + "] " + result);
