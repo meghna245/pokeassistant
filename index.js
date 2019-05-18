@@ -78,7 +78,7 @@ client.on('message', message => {
       return message.channel.send("I need the `Embed Links` permission. Please contact an administrator on this server.");
     }
 
-    if (message.author.id == '365975655608745985' && message.guild.id != '447732123340767232') {
+    if (message.author.id == '365975655608745985') {
       message.embeds.forEach((e) => {
         if (e.description !== undefined && e.description.startsWith("Guess the pokémon and type")) {
           if (e.image) {
