@@ -81,7 +81,7 @@ client.on('message', message => {
 
     if (message.author.id == '365975655608745985') {
       message.embeds.forEach((e) => {
-        if (e.description !== undefined && e.description.startsWith("Guess the pokémon and type")) {
+        if (e.description !== undefined && e.description.startsWith("Guess the pokémon аnd type")) {
           if (e.image) {
             let url = e.image.url;
             
